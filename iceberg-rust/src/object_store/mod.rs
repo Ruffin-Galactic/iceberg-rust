@@ -46,8 +46,9 @@ impl Bucket<'_> {
                 .next()
                 .map(Bucket::S3)
                 .ok_or(Error::NotFound(format!("Bucket in path {path}")))
-        } else if path.starts_with("gcs://") {
+        } else if path.starts_with("gcs://") || path.starts_with("gs://") {
             path.trim_start_matches("gcs://")
+                .trim_start_matches("gs://")
                 .split('/')
                 .next()
                 .map(Bucket::GCS)
